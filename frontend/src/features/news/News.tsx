@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectAllNews, selectFetchLoading } from "./newsSlice.ts";
-import { deleteNews, fetchAllNews } from './newsThunks.ts';
+import { deleteNews, fetchAllNews } from "./newsThunks.ts";
 import { NavLink } from "react-router-dom";
 import Loader from "../../components/UI/Loader/Loader.tsx";
 import NewsCard from "./components/NewsCard/NewsCard.tsx";
@@ -16,7 +16,7 @@ const News = () => {
   }, [dispatch]);
 
   const onDeleteNews = async (id: string) => {
-    let warning = confirm("Are you sure you want to remove");
+    let warning = confirm("Are you sure you want to remove?");
 
     if (warning) {
       await dispatch(deleteNews(id));
@@ -29,7 +29,10 @@ const News = () => {
 
   if (loading) {
     content = (
-      <div>
+      <div
+        style={{ height: "80vh" }}
+        className="d-flex align-items-center justify-content-center"
+      >
         <Loader />
       </div>
     );
@@ -37,7 +40,7 @@ const News = () => {
 
   if (!loading && allNews.length > 0) {
     content = (
-      <>
+      <div className="d-grid gap-3 ">
         {allNews.map((item) => (
           <NewsCard
             key={item.id}
@@ -49,12 +52,16 @@ const News = () => {
             id={String(item.id)}
           />
         ))}
-      </>
+      </div>
     );
   }
 
+  if (allNews.length === 0) {
+    content = <h2>No posts</h2>;
+  }
+
   return (
-    <main>
+    <main className="mb-5">
       <div className="d-flex justify-content-sm-between items-center">
         <h1>Posts</h1>
         <div>

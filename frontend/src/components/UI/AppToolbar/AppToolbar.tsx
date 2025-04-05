@@ -5,7 +5,7 @@ const AppToolbar = () => {
   return (
     <Navbar bg="primary" data-bs-theme="dark" className="mb-5">
       <Container>
-        <NavLink to="/news" className="navbar-brand">
+        <NavLink to="/" className="navbar-brand">
           News
         </NavLink>
       </Container>

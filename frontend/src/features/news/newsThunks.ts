@@ -41,4 +41,3 @@ export const deleteNews = createAsyncThunk<void, string>(
     await axiosAPI.delete(`news/${id}`);
   },
 );
-

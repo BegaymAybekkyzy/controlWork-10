@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { INewsForm } from '../../../../types';
-import { Form, Button } from 'react-bootstrap';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks.ts';
-import { selectCreateLoading } from '../../newsSlice.ts';
-import FileInput from '../../../../components/UI/FileInput/FileInput.tsx';
-import { createNews } from '../../newsThunks.ts';
+import React, { useState } from "react";
+import { INewsForm } from "../../../../types";
+import { Form, Button } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks.ts";
+import { selectCreateLoading } from "../../newsSlice.ts";
+import FileInput from "../../../../components/UI/FileInput/FileInput.tsx";
+import { createNews, fetchAllNews } from "../../newsThunks.ts";
 
 const initialValues = {
-  title: '',
-  description: '',
+  title: "",
+  description: "",
   image: null,
 };
+
 const NewsForm = () => {
   const [form, setForm] = useState<INewsForm>(initialValues);
   const loading = useAppSelector(selectCreateLoading);
@@ -21,21 +22,24 @@ const NewsForm = () => {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(form);
-    dispatch(createNews(form));
+    await dispatch(createNews(form));
+    await dispatch(fetchAllNews());
     setForm(initialValues);
-    navigate('/');
+    navigate("/");
   };
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setForm({...form, [name]: value});
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
-  const fileInputChangeHandler = (eFile: React.ChangeEvent<HTMLInputElement>) => {
-    const {files} = eFile.target;
+  const fileInputChangeHandler = (
+    eFile: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { files } = eFile.target;
 
     if (files) {
-      setForm(prev => ({...prev, 'image': files[0]}));
+      setForm((prev) => ({ ...prev, image: files[0] }));
     }
   };
 
@@ -70,7 +74,11 @@ const NewsForm = () => {
 
       <Form.Group className="mb-3">
         <Form.Label>Image</Form.Label>
-        <FileInput name="image" onChange={fileInputChangeHandler} label="image"/>
+        <FileInput
+          name="image"
+          onChange={fileInputChangeHandler}
+          label="image"
+        />
       </Form.Group>
 
       <Button

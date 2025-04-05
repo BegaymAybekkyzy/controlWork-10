@@ -1,7 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { INews } from '../../types';
-import { createNews, deleteNews, fetchAllNews, fetchNewsById } from './newsThunks.ts';
-import { RootState } from '../../app/store.ts';
+import { createSlice } from "@reduxjs/toolkit";
+import { INews } from "../../types";
+import {
+  createNews,
+  deleteNews,
+  fetchAllNews,
+  fetchNewsById,
+} from "./newsThunks.ts";
+import { RootState } from "../../app/store.ts";
 
 interface NewsState {
   allNews: INews[];
@@ -22,11 +27,13 @@ const initialState: NewsState = {
 export const selectAllNews = (state: RootState) => state.news.allNews;
 export const selectOneNews = (state: RootState) => state.news.news;
 export const selectFetchLoading = (state: RootState) => state.news.fetchLoading;
+export const selectDeleteLoading = (state: RootState) =>
+  state.news.deleteLoading;
 export const selectCreateLoading = (state: RootState) =>
   state.news.createLoading;
 
 export const newsSlice = createSlice({
-  name: 'news',
+  name: "news",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -34,16 +41,22 @@ export const newsSlice = createSlice({
       .addCase(fetchAllNews.pending, (state) => {
         state.fetchLoading = true;
       })
-      .addCase(fetchAllNews.fulfilled, (state, {payload}) => {
+      .addCase(fetchAllNews.fulfilled, (state, { payload }) => {
         state.allNews = payload;
+        state.fetchLoading = false;
+      })
+      .addCase(fetchAllNews.rejected, (state) => {
         state.fetchLoading = false;
       })
 
       .addCase(fetchNewsById.pending, (state) => {
         state.fetchLoading = true;
       })
-      .addCase(fetchNewsById.fulfilled, (state, {payload}) => {
+      .addCase(fetchNewsById.fulfilled, (state, { payload }) => {
         state.news = payload;
+        state.fetchLoading = false;
+      })
+      .addCase(fetchNewsById.rejected, (state) => {
         state.fetchLoading = false;
       })
 

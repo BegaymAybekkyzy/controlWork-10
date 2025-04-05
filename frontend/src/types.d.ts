@@ -11,3 +11,13 @@ export interface INews {
   image: string | null;
   created_at: string;
 }
+
+export interface ICommentForm {
+  news_id: number;
+  author?: string;
+  text: string;
+}
+
+export interface IComment extends ICommentForm {
+  id: number;
+}
