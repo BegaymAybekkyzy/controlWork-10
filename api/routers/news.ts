@@ -45,7 +45,7 @@ newRouter.post('/', ImageUpload.single("image"), async (req, res) => {
         const id = resultHeader.insertId;
 
         const [oneNews] = await connection.query('SELECT * FROM news WHERE id = ?', [id]);
-        const newsInfo = oneNews as INewsMutation[];
+        const newsInfo = oneNews as INews[];
         res.send(newsInfo[0]);
 
     } catch (err) {

@@ -24,12 +24,12 @@ DROP TABLE IF EXISTS `comments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `new_id` int NOT NULL,
+  `news_id` int NOT NULL,
   `author` varchar(255) DEFAULT 'Anonymous',
   `text` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `comments_new_id_fk` (`new_id`),
-  CONSTRAINT `comments_new_id_fk` FOREIGN KEY (`new_id`) REFERENCES `news` (`id`) ON DELETE CASCADE
+  CONSTRAINT `comments_new_id_fk` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
