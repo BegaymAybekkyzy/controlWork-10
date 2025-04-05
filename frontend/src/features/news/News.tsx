@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
-import { selectAllNews, selectFetchLoading } from './newsSlice.ts';
-import { fetchAllNews } from './newsThunks.ts';
-import { NavLink } from 'react-router-dom';
-import Loader from '../../components/UI/Loader/Loader.tsx';
-import NewsCard from './components/NewsCard/NewsCard.tsx';
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { selectAllNews, selectFetchLoading } from "./newsSlice.ts";
+import { deleteNews, fetchAllNews } from './newsThunks.ts';
+import { NavLink } from "react-router-dom";
+import Loader from "../../components/UI/Loader/Loader.tsx";
+import NewsCard from "./components/NewsCard/NewsCard.tsx";
 
 const News = () => {
   const dispatch = useAppDispatch();
@@ -15,10 +15,24 @@ const News = () => {
     dispatch(fetchAllNews());
   }, [dispatch]);
 
+  const onDeleteNews = async (id: string) => {
+    let warning = confirm("Are you sure you want to remove");
+
+    if (warning) {
+      await dispatch(deleteNews(id));
+      await dispatch(fetchAllNews());
+    }
+    return;
+  };
+
   let content: React.ReactNode;
 
   if (loading) {
-    content = (<div><Loader/></div>)
+    content = (
+      <div>
+        <Loader />
+      </div>
+    );
   }
 
   if (!loading && allNews.length > 0) {
@@ -31,22 +45,26 @@ const News = () => {
             text={item.description}
             datetime={item.created_at}
             image={item.image ? item.image : null}
+            deletePost={onDeleteNews}
+            id={String(item.id)}
           />
         ))}
       </>
-    )
+    );
   }
 
   return (
     <main>
       <div className="d-flex justify-content-sm-between items-center">
         <h1>Posts</h1>
-        <div><NavLink to="/add-new-post" className="btn btn-primary">Add new post</NavLink></div>
+        <div>
+          <NavLink to="/add-new-post" className="btn btn-primary">
+            Add new post
+          </NavLink>
+        </div>
       </div>
 
-      <div>
-        {content}
-      </div>
+      <div>{content}</div>
     </main>
   );
 };

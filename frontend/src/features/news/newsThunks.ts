@@ -1,36 +1,44 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import axiosAPI from '../../axiosAPI.ts';
-import { INews, INewsForm } from '../../types';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axiosAPI from "../../axiosAPI.ts";
+import { INews, INewsForm } from "../../types";
 
 export const fetchAllNews = createAsyncThunk<INews[], void>(
-  'news/fetchAllNews',
+  "news/fetchAllNews",
   async () => {
-    const response = await axiosAPI.get<INews[]>('/news');
+    const response = await axiosAPI.get<INews[]>("news");
     return response.data;
-  }
+  },
 );
 
 export const fetchNewsById = createAsyncThunk<INews, string>(
-  'news/fetchNewsById',
+  "news/fetchNewsById",
   async (news_id) => {
-    const response = await axiosAPI.get<INews>('/products/' + news_id);
+    const response = await axiosAPI.get<INews>("news/" + news_id);
     return response.data || null;
-  }
+  },
 );
 
 export const createNews = createAsyncThunk<void, INewsForm>(
-  'news/createNews',
+  "news/createNews",
   async (news) => {
     const formData = new FormData();
     const keys = Object.keys(news) as (keyof INewsForm)[];
 
-    keys.forEach(key => {
+    keys.forEach((key) => {
       const value = news[key] as string;
       if (value !== null) {
         formData.append(key, value);
       }
     });
 
-    await axiosAPI.post('/products', formData);
-  }
+    await axiosAPI.post("news", formData);
+  },
 );
+
+export const deleteNews = createAsyncThunk<void, string>(
+  "news/deleteNews",
+  async (id) => {
+    await axiosAPI.delete(`news/${id}`);
+  },
+);
+
