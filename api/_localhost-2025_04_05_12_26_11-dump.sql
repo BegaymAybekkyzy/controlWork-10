@@ -19,22 +19,19 @@
 -- Table structure for table `comments`
 --
 
-DROP SCHEMA IF EXISTS `news_db`;
-CREATE SCHEMA `news_db`;
-USE `news_db`;
-
 DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `comments` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `news_id` int NOT NULL,
-  `author` varchar(255) DEFAULT 'Anonymous',
-  `text` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `comments_new_id_fk` (`new_id`),
-  CONSTRAINT `comments_new_id_fk` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `comments`
+(
+    `id`      int  NOT NULL AUTO_INCREMENT,
+    `news_id` int  NOT NULL,
+    `author`  varchar(255) DEFAULT 'Anonymous',
+    `text`    text NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY       `comments_news_id_fk` (`news_id`),
+    CONSTRAINT `comments_news_id_fk` FOREIGN KEY (`news_id`) REFERENCES `news` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,8 +40,10 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (19, 1, 'Tom 2', 'delete 1');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
-UNLOCK TABLES;
+UNLOCK
+TABLES;
 
 --
 -- Table structure for table `news`
@@ -53,14 +52,15 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `news`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `news` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `news`
+(
+    `id`          int          NOT NULL AUTO_INCREMENT,
+    `title`       varchar(255) NOT NULL,
+    `description` text         NOT NULL,
+    `image`       varchar(255)          DEFAULT NULL,
+    `created_at`  datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,8 +69,10 @@ CREATE TABLE `news` (
 
 LOCK TABLES `news` WRITE;
 /*!40000 ALTER TABLE `news` DISABLE KEYS */;
+INSERT INTO `news` VALUES (1, 'Lorem', 'Lorem dsgsa', '50cdb223-ad6f-469f-884d-9f3cadeac327.png', '2025-04-05 12:30:24');
 /*!40000 ALTER TABLE `news` ENABLE KEYS */;
-UNLOCK TABLES;
+UNLOCK
+TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
