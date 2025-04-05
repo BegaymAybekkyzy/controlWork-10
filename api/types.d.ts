@@ -3,7 +3,7 @@ export interface INewsMutation {
     description: string;
     image?: string | null;
 }
-export interface INews extends INews {
+export interface INews extends INewsMutation {
     id: number;
     created_at: string;
 }

@@ -19,6 +19,10 @@
 -- Table structure for table `comments`
 --
 
+DROP SCHEMA IF EXISTS `news_db`;
+CREATE SCHEMA `news_db`;
+USE `news_db`;
+
 DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
